@@ -8,21 +8,21 @@
 <script>
     export default {
 
-        props:['postId', 'likes'],
+        props:['saveId', 'saved'],
 
         mounted() {
-            console.log('postId')
+            console.log('saveId')
         },
 
         data: function(){
             return {
-                status: this.likes,
+                status: this.saved,
             }
         },
 
         methods: {
             savePost() {
-                axios.post('/saves/'+this.postId).then(response => {
+                axios.post('/saves/'+this.saveId).then(response => {
                     this.status = !this.status;
 
                     console.log(response.data);
@@ -38,7 +38,7 @@
 
         computed: {
             buttonIcon() {
-                return(this.status) ? '☻' : '☺';
+                return(this.status) ? '☺' : '☻';
             }
         },
     }

@@ -2061,20 +2061,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['postId', 'likes'],
+  props: ['saveId', 'saved'],
   mounted: function mounted() {
-    console.log('postId');
+    console.log('saveId');
   },
   data: function data() {
     return {
-      status: this.likes
+      status: this.saved
     };
   },
   methods: {
     savePost: function savePost() {
       var _this = this;
 
-      axios.post('/saves/' + this.postId).then(function (response) {
+      axios.post('/saves/' + this.saveId).then(function (response) {
         _this.status = !_this.status;
         console.log(response.data);
       })["catch"](function (errors) {
@@ -2086,7 +2086,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     buttonIcon: function buttonIcon() {
-      return this.status ? '☻' : '☺';
+      return this.status ? '☺' : '☻';
     }
   }
 });

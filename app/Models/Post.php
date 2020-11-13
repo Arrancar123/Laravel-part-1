@@ -27,8 +27,7 @@ class Post extends Model
 
     public function saves()
     {
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(User::class);
     }
-
 
 }

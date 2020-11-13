@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use RealRashid\SweetAlert\Facades\Alert;
+
 use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\User;
@@ -58,6 +60,15 @@ class PostsController extends Controller
         $check = Auth::check();
         $follows = (auth()->user()) ? auth()->user()->following->contains($yes->id) : false;
         $likes = (auth()->user()) ? auth()->user()->likes->contains($post->id) : false;
+        $saved = (auth()->user()) ? auth()->user()->saves->contains($post->id) : false;
+
+        if(session('success')){
+            Alert::success('Success!', session('success'));
+        }
+
+        if(session('error')){
+            Alert::error('Error!', session('error'));
+        }
 
         $postCount = Cache::remember('count.posts.' . $yes->id,
             now()->addSeconds(30),
@@ -83,6 +94,6 @@ class PostsController extends Controller
                 return $post->likes->count();
             });
 
-        return view('posts.show', compact('post', 'follows', 'postCount', 'followersCount', 'followingCount', 'check', 'likes', 'likesCount'));
+        return view('posts.show', compact('post', 'follows', 'postCount', 'followersCount', 'followingCount', 'check', 'likes', 'likesCount', 'saved'));
     }
 }

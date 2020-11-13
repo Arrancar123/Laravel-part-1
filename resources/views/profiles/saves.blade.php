@@ -5,14 +5,13 @@
     <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-    <meta charset=utf-8/>
-    <meta caption="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Laravel</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/28c0859aa9.js" crossorigin="anonymous"></script>
 
     <!-- Styles -->
     <style>
@@ -46,106 +45,47 @@
         }
 
         #arcanePost {
-            height: 120px;
-            width: 150px;
             margin-left: auto;
             margin-right: auto;
             display: block;
+            text-align: center;
         }
 
-        div.vu{
-            display: inline-block;
-            width: 50%;
-
+        #arcanePost:hover {
+            border-color: #FFFFFF;
         }
     </style>
 </head>
-@include('sweetalert::alert')
 <body class="antialiased">
     <div class="container">
-        <div class="row">
-            @if (session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-            <div class="col-8">
-                <img src="/storage/{{$post->image}}" alt="" class="w-100">
+        <div class="row d-flex">
+            <div class="col-3 p-5">
+                <img src="{{$user->profile->profileImage()}}" class="rounded-circle" id="arcane">
             </div>
-            <div class="col-4">
-                <div class="d-flex align-items-center">
-                    <div class="pr-2">
-                        <a href="/profile/{{$post->user->id}}" style="text-decoration: none;">
-                            <img src="{{$post->user->profile->profileImage()}}" alt="" class="rounded-circle" style="max-width: 40px;">
-                        </a>
-                    </div>
-                    <div>
-                        <div class="font-weight-bold">
-                            <a href="/profile/{{$post->user->id}}">
-                                <span class="text-dark">{{$post->user->username}}</span>
-                            </a>
-
-                            @if($check)
-                                @if(auth()->user()->id != $post->user->id)
-                                    •
-                                    <follow-link user-id="{{$post->user->id}}" follows="{{$follows}}"></follow-link>
-                                @endif
-                            @endif
-
-                        </div>
+            <div class="col-9 pt-5">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <h2>{{$user->username}}</h2>
                     </div>
                 </div>
-                <hr>
-                <p><span class="font-weight-bold">
-                        <a href="/profile/{{$post->user->id}}">
-                            <span class="text-dark">{{$post->user->username}}</span>
-                        </a>
-                    </span> {{$post->caption}}</p>
-                <hr>
-
-                <div class="row">
-                    <div class="d-flex col-md-6">
-                        <div class="d-flex align-items-center">
-                            <like-button post-id="{{$post->id}}" likes="{{$likes}}"></like-button>
-                            <strong>{{$likesCount}}</strong>
-                        </div>
-                    </div>
-
-                    <div class="d-flex">
-                        <div class="d-flex align-items-center">
-                        <save-button save-id="{{$post->id}}" saved="{{$saved}}"></save-button>
-                        </div>
-                    </div>
+                <div class>
+                    <strong>Saved Items</strong>
                 </div>
-
-                <hr>
-                <p>
-                    @if($post->comments)
-                        @foreach($post->comments as $comment)
-                            <span class="font-weight-bold">
-                                <a href="/profile/{{$comment->user_id}}">
-                                    <span class="text-dark">{{$comment->name}}</span>
-                                </a>
-                            </span>
-                            {{$comment->comments}}
-                            <hr>
-                        @endforeach
-                    @endif
-                </p>
-                <form action="/c/{{$post->id}}" method="post">
-                    @csrf
-                    <textarea id="comment"
-                              type="textarea"
-                              class="form-control @error('description') is-invalid @enderror"
-                              name="comment"
-                              autocomplete="comment" autofocus cols="10" rows="5" placeholder="Write your comment..."></textarea>
-
-                    <button class="btn btn-primary mt-2">Submit</button>
-                </form>
             </div>
+        </div>
+
+        <div class="row pt-8">
+
+            @foreach($saves as $save)
+                <div class="col-4 pb-4">
+                    <a href="/p/{{$save->post_id}}">
+                        <img src="/storage/{{$save->image}}" id="arcanePost">
+                    </a>
+                </div>
+            @endforeach
+
         </div>
     </div>
 </body>
 </html>
-
 @endsection

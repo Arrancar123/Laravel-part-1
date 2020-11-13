@@ -38,5 +38,5 @@ Route::patch('/profile/{user}', [App\Http\Controllers\ProfilesController::class,
 
 Route::get('/s', [App\Http\Controllers\UserController::class, 'search']);
 
-Route::get('/saves/{user}', [App\Http\Controllers\SavesController::class, 'index']);
-Route::post('/saves/{post}', [App\Http\Controllers\SavesController::class, 'store']);
+Route::get('/saved/{user}', [App\Http\Controllers\SavesController::class, 'index']);
+Route::any('/saves/{post}', [App\Http\Controllers\SavesController::class, 'store']);

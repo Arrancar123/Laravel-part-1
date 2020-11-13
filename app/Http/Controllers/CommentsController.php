@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Cache;
 use App\Models\Comments;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -23,6 +24,14 @@ class CommentsController extends Controller
         $user = auth()->user()->id;
         $postId = $post->id;
         $follows = (auth()->user()) ? auth()->user()->following->contains($yes->id) : false;
+        $likes = (auth()->user()) ? auth()->user()->likes->contains($post->id) : false;
+        $saved = (auth()->user()) ? auth()->user()->saves->contains($post->id) : false;
+
+        $likesCount = Cache::remember('count.likes.' . $post->id,
+            now()->addSeconds(30),
+            function () use ($post) {
+                return $post->likes->count();
+            });
 
         $data = request()->validate([
             'comment' => 'required',
@@ -36,6 +45,6 @@ class CommentsController extends Controller
         ]);
 
         //return redirect('/p/' . $postId)->with(compact('comment', 'name'));
-        return view('posts.show', compact('post', 'comment', 'name', 'check', 'follows'));
+        return view('posts.show', compact('post', 'comment', 'name', 'check', 'follows', 'likes', 'saved', 'likesCount'));
     }
 }

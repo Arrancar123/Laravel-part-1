@@ -70,7 +70,7 @@
                                         {{ __('Profile') }}
                                     </a>
 
-                                    <a class="dropdown-item" href="{{ url('/saves/'.auth()->user()->id) }}">
+                                    <a class="dropdown-item" href="{{ url('/saved/'.auth()->user()->id) }}">
                                         {{ __('Saved Items') }}
                                     </a>
 
