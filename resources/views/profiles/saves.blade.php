@@ -59,18 +59,23 @@
 <body class="antialiased">
     <div class="container">
         <div class="row d-flex">
+
             <div class="col-3 p-5">
                 <img src="{{$user->profile->profileImage()}}" class="rounded-circle" id="arcane">
             </div>
+
             <div class="col-9 pt-5">
+
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="d-flex align-items-center">
                         <h2>{{$user->username}}</h2>
                     </div>
                 </div>
+
                 <div class>
                     <strong>Saved Items</strong>
                 </div>
+
             </div>
         </div>
 
@@ -78,9 +83,11 @@
 
             @foreach($saves as $save)
                 <div class="col-4 pb-4">
+
                     <a href="/p/{{$save->post_id}}">
                         <img src="/storage/{{$save->image}}" id="arcanePost">
                     </a>
+
                 </div>
             @endforeach
 

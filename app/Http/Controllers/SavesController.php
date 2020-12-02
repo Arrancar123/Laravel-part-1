@@ -20,12 +20,7 @@ class SavesController extends Controller
     public function index(User $user){
         $saves = DB::select('select * from saves where user_id = ?', [$user->id]);
 
-        if(empty($saves)){
-            $msg = "No posts saved!";
-            return redirect()->back()->with('error', $msg);
-        }
-
-        return view('profiles.saves', compact('user', 'saves'));
+        return (empty($saves))? redirect()->back()->with('error', 'No posts saved!'): view('profiles.saves', compact('user', 'saves'));
     }
 
     public function store(Post $post){
@@ -47,8 +42,8 @@ class SavesController extends Controller
                 'image' => $post->image,
             ]);
 
-            session()->flash('success', 'Saved!');
-            $msg = 'Saved!';
+            session()->flash('success', 'Added to saves!');
+            $msg = 'Added to saves!';
         }
 
         return redirect()->back()->with('success', $msg);
